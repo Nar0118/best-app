@@ -5,8 +5,10 @@ import { Box, Button, Center, HStack, Heading, ScrollView } from "native-base";
 import CartEmpty from "../../components/features/CartEmpty/CartEmpty";
 import Colors from "../../Colors";
 import CartItems from "../../components/features/CartItems/CartItems";
+import { useNavigation } from "@react-navigation/native";
 
 function Cart() {
+  const navigation = useNavigation();
   return (
     <Box flex={1} safeAreaTop bg={Colors.lightBlue}>
       <Center w='full' py={5}>
@@ -61,6 +63,7 @@ function Cart() {
             px={5}
             width='100%'
             mb={5}
+            onPress={() => navigation.navigate("Checkout")}
           >
             Checkout
           </Button>

@@ -1,0 +1,13 @@
+# .gitignore
+.expo/web
+node_modules
+*.lock.json
+yarn.lock
+package-lock.json
+.env
+*.env
+**/*.env
+pnpm-lock.yaml
+/build/
+# Ignore all files and directories inside node_modules/yaml
+node_modules/yaml/*

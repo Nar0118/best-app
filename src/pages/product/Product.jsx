@@ -19,16 +19,17 @@ import Review from "../../components/features/Review/Review";
 import Message from "../../components/shared/message/Message";
 import Colors from "../../Colors";
 
-const Product = () => {
+const Product = (props) => {
   const [product, setProduct] = useState(null);
   const [rating, setRating] = useState(0);
   const [value, setValue] = useState(0);
   const [comment, setComment] = useState("");
+  console.log("product", product);
 
   const getProduct = useCallback(async () => {
     try {
       const data = await fetchOneDevice(1);
-      setProduct(data);
+      setProduct(props.route.params);
 
       if (data?.ratings?.length > 0) {
         const sum = (data.ratings || []).reduce(
@@ -44,13 +45,23 @@ const Product = () => {
   }, []);
 
   useEffect(() => {
-    getProduct();
-  }, []);
+    // getProduct();
+    setProduct(props.route.params);
+    if (props.route.params?.ratings?.length > 0) {
+      const sum = (props.route.params.ratings || []).reduce(
+        (acc, rating) => acc + (rating?.rate || 0),
+        0
+      );
+
+      setRating(Math.round(sum / props.route.params.ratings.length));
+    }
+  }, [props]);
 
   const ratingCompleted = (rating) => {};
 
   return (
     <Box safeArea flex={1} bg={Colors.white} p={5}>
+      <Text>{JSON.stringify(props.route.params.ratings)}</Text>
       <ScrollView px={5} showsVerticalScrollIndicator={false}>
         <Image
           source={{
@@ -146,14 +157,16 @@ const Product = () => {
           REVIEW
         </Heading>
         {/* If there is no review */}
-        <Message
-          color={Colors.main}
-          bg={Colors.lightBlue}
-          bold
-          children='No Review'
-        />
-        {/* else */}
-        <Review />
+        {product?.ratings?.length ? (
+          product?.ratings?.map((e) => <Review rating={e} />)
+        ) : (
+          <Message
+            color={Colors.main}
+            bg={Colors.lightBlue}
+            bold
+            children='No Review'
+          />
+        )}
       </ScrollView>
       <CustomButton bg={Colors.main} color={Colors.white}>
         Add to cart

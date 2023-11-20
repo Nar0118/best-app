@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -11,8 +11,29 @@ import {
 } from "native-base";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Colors from "../../Colors";
+import { login } from "../../http/userApi";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Login = () => {
+const Login = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    navigation.navigate("Bottom"); // need to remove
+    try {
+      if (!email || !password) {
+        alert("Please fill all fields!");
+        return;
+      }
+
+      await login({ email, password });
+      const token = await AsyncStorage.getItem("token");
+      if (token) navigation.navigate("Bottom");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Box flex={1} bg={Colors.black}>
       <Image
@@ -35,6 +56,8 @@ const Login = () => {
         <Heading>Login</Heading>
         <VStack space={6} pt='6'>
           <Input
+            value={email}
+            onChangeText={(text) => setEmail(text)}
             InputLeftElement={
               <MaterialIcons name='email' size={24} color={Colors.main} />
             }
@@ -46,6 +69,8 @@ const Login = () => {
             pl={2}
           />
           <Input
+            value={password}
+            onChangeText={(text) => setPassword(text)}
             InputLeftElement={
               <AntDesign name='eye' size={24} color={Colors.main} />
             }
@@ -66,8 +91,9 @@ const Login = () => {
             bg: Colors.main,
           }}
           _text={{
-            color: Colors.white
+            color: Colors.white,
           }}
+          onPress={handleLogin}
         >
           Login
         </Button>

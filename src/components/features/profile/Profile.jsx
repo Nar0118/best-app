@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, FormControl, Input, ScrollView, VStack } from "native-base";
+import { Box, ScrollView, FormControl, Input, VStack } from "native-base";
 import Colors from "../../../Colors";
 import CustomButton from "../../shared/button/Button";
 

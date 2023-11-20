@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../../../pages/home/Home";
 import Contact from "../../../pages/contact/Contact";
 import About from "../../../pages/about/About";
+import BottomNavigation from "../../navigations/bottomNavigation/BottomNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +27,7 @@ const Navbar = ({ navigation }) => {
     <Tab.Navigator>
       <Tab.Screen name='Home' component={Home} />
       <Tab.Screen name='About' component={About} />
-      <Tab.Screen name='Contact' component={Contact} />
+      <Tab.Screen name='Contact' component={BottomNavigation} />
     </Tab.Navigator>
   );
 };

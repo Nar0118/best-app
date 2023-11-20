@@ -3,11 +3,12 @@ import { Box, Heading, Text, View } from "native-base";
 import StarRating from "react-native-star-rating";
 import Colors from "../../../Colors";
 
-const Review = () => {
+const Review = ({ rating }) => {
   return (
     <Box my={9}>
       <Box p={3} bg={Colors.lightBlue} mt={5} rounded={5}>
-        <Heading fontSize={15}>John Smith</Heading>
+        <Text>{JSON.stringify(Object.keys(rating))}</Text>
+        <Heading fontSize={15}>{rating?.user?.first_name}</Heading>
         <View width={50} mt={2}>
           <StarRating
             disabled

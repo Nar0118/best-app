@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import AddCartBtn from "../../components/shared/button/AddCartBtn";
-import { Flex, ScrollView } from "native-base";
+import { Flex, Pressable, ScrollView } from "native-base";
+import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
+  const navigation = useNavigation();
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -39,12 +41,14 @@ const Home = () => {
         {data?.map((e) => (
           <View style={styles.container} key={e?.id}>
             <Text style={styles.name}>{e.name}</Text>
-            <Image
-              style={styles.tinyLogo}
-              source={{
-                uri: e.img,
-              }}
-            />
+            <Pressable onPress={() => navigation.navigate("Product", e)}>
+              <Image
+                style={styles.tinyLogo}
+                source={{
+                  uri: e.img,
+                }}
+              />
+            </Pressable>
             <Text style={styles.price}>Price: {e.price} AMD</Text>
             <AddCartBtn />
           </View>

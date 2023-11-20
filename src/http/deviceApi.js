@@ -1,7 +1,7 @@
 // import { checkAuth } from "../utils/functions";
 // import { $authHost, $host } from "./index";
 
-import { $host } from ".";
+import { $authHost, $host } from ".";
 
 // export const createType = async (type: any) => {
 //   const { data } = await $authHost.post("api/type", type);
@@ -57,11 +57,11 @@ export const fetchOneDevice = async (id) => {
 //   return data;
 // };
 
-// export const fetchOneBasket = async (id: number) => {
-//   const { data } = await $authHost.get(`api/basket/${id}`);
-//   checkAuth(data?.status);
-//   return data;
-// };
+export const fetchOneBasket = async (id) => {
+  const { data } = await $authHost.get(`api/basket/${id}`);
+  checkAuth(data?.status);
+  return data;
+};
 
 // export const createBasket = async (basket: any) => {
 //   const { data } = await $authHost.post("api/basket", basket);

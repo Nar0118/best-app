@@ -7,18 +7,31 @@ import Profile from "./src/pages/profile/Profile";
 import Tabs from "./src/components/features/Tabs/Tabs";
 import OrderView from "./src/pages/orderView/OrderView";
 import { NavigationContainer } from "@react-navigation/native";
+import Login from "./src/pages/login/Login";
+import SignUp from "./src/pages/signup/Signup";
+import Orders from "./src/components/features/Orders/Orders";
+import BottomNavigation from "./src/components/navigations/bottomNavigation/BottomNavigation";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NativeBaseProvider>
-      {/* <NavigationContainer>
-        <StatusBar hidden={true} />
-        
-      </NavigationContainer> */}
-      <Search />
-      <OrderView />
+      <NavigationContainer>
+        {/* <StatusBar hidden={true} /> */}
+        <Search />
+        <Stack.Navigator
+          initialRouteName='Login'
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name='Login' component={Login} />
+          <Stack.Screen name='Signup' component={SignUp} />
+          <Stack.Screen name='Order' component={Orders} />
+          <Stack.Screen name='Bottom' component={BottomNavigation} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
     // <NavigationContainer>
     //   <Stack.Navigator initialRouteName='Home'>
