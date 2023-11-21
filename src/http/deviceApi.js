@@ -1,11 +1,7 @@
-// import { checkAuth } from "../utils/functions";
-// import { $authHost, $host } from "./index";
-
 import { $authHost, $host } from ".";
 
-// export const createType = async (type: any) => {
+// export const createType = async (type) => {
 //   const { data } = await $authHost.post("api/type", type);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
@@ -14,9 +10,8 @@ import { $authHost, $host } from ".";
 //   return data;
 // };
 
-// export const createBrand = async (brand: string) => {
+// export const createBrand = async (brand) => {
 //   const { data } = await $authHost.post("api/brand", brand);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
@@ -25,19 +20,17 @@ import { $authHost, $host } from ".";
 //   return data;
 // };
 
-// export const createDevice = async (device: any) => {
+// export const createDevice = async (device) => {
 //   const { data } = await $authHost.post("api/device", device);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
-// export const updateDevice = async (id: number, device: any) => {
+// export const updateDevice = async (id, device) => {
 //   const { data } = await $authHost.put(`api/device/${id}`, device);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
-// export const fetchDevices = async (queries?: any, signal: any = null) => {
+// export const fetchDevices = async (queries, signal = null) => {
 //   const { data } = await $host.get(
 //     `/api/device?page=${queries?.current}&limit=${queries?.pageSize}&search=${queries?.search}&typeId=${queries?.typeId}&brandId=${queries?.brandId}`,
 //     { signal }
@@ -51,75 +44,66 @@ export const fetchOneDevice = async (id) => {
   return data;
 };
 
-// export const removeOneDevice = async (id: number) => {
+// export const removeOneDevice = async (id) => {
 //   const { data } = await $authHost.delete(`api/device/${id}`);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
 export const fetchOneBasket = async (id) => {
   const { data } = await $authHost.get(`api/basket/${id}`);
-  checkAuth(data?.status);
   return data;
 };
 
-// export const createBasket = async (basket: any) => {
+// export const createBasket = async (basket) => {
 //   const { data } = await $authHost.post("api/basket", basket);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
-// export const removeFromBasket = async (id: number) => {
-//   const { data } = await $authHost.delete(`api/basket/${id}`);
-//   checkAuth(data?.status);
-//   return data;
-// };
+export const removeFromBasket = async (id) => {
+  const { data } = await $authHost.delete(`api/basket/${id}`);
+  return data;
+};
 
-// export const updateBasket = async (id: number, basket: any) => {
+// export const updateBasket = async (id, basket) => {
 //   const { data } = await $authHost.put(`api/basket/${id}`, basket);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
-// export const createRate = async (rate: any) => {
+// export const createRate = async (rate) => {
 //   const { data } = await $authHost.post("api/rate", rate);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
-// export const createOrder = async (order: any) => {
+// export const createOrder = async (order) => {
 //   const { data } = await $authHost.post("api/order", order);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
-// export const getOrder = async (pagination?: any) => {
+// export const getOrder = async (pagination) => {
 //   const { data } = pagination?.current
 //     ? await $authHost.get(
 //         `/api/order?page=${pagination?.current}&limit=${pagination?.pageSize}`
 //       )
 //     : await $authHost.get(`/api/order`);
-//   checkAuth(data?.status);
 //   return data;
 // };
 
-// export const getOneOrder = async (id: number) => {
+// export const getOneOrder = async (id) => {
 //   const { data } = await $authHost.get(`api/order/${id}`);
 
 //   return data;
 // };
 
-// export const changeStatusOrder = async (id: number, status: string) => {
+// export const changeStatusOrder = async (id, status) => {
 //   const { data } = await $authHost.patch(`api/order/${id}`, { status });
 
 //   return data;
 // };
 
-// export const payment = async (payload: any) => {
+// export const payment = async (payload) => {
 //   const { data } = await $authHost.post(
 //     "api/stripe/create-checkout-session",
 //     payload
 //   );
-//   checkAuth(data?.status);
 //   return data;
 // };

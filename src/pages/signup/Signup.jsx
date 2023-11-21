@@ -6,13 +6,17 @@ import {
   Image,
   Input,
   Pressable,
+  ScrollView,
   Text,
   VStack,
 } from "native-base";
 import { MaterialIcons, AntDesign, Entypo, Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import Colors from "../../Colors";
 
 const SignUp = () => {
+  const navigation = useNavigation();
+
   return (
     <Box flex={1} bg={Colors.black}>
       <Image
@@ -23,13 +27,14 @@ const SignUp = () => {
         w='full'
         source={require("../../../assets/bg.png")}
       />
-      <Box
+      <ScrollView
         w='full'
         h='full'
         position='absolute'
-        top='0'
-        px='6'
-        justifyContent='center'
+        top={0}
+        px={6}
+        mb={6}
+        // justifyContent='center'
       >
         <Heading color={Colors.main}>Sign up</Heading>
         <VStack space={6} pt='6'>
@@ -138,10 +143,10 @@ const SignUp = () => {
         >
           Sign up
         </Button>
-        <Pressable mt={4}>
-          <Text color='gray'>Login</Text>
+        <Pressable mt={4} onPress={() => navigation.navigate("Login")}>
+          <Text color={Colors.white}>Login</Text>
         </Pressable>
-      </Box>
+      </ScrollView>
     </Box>
   );
 };

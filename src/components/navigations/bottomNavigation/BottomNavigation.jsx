@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Center, Pressable, Text } from "native-base";
+import { Center, Pressable } from "native-base";
 import { StyleSheet } from "react-native";
 import {
   Entypo,
@@ -7,9 +7,7 @@ import {
   FontAwesome5,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import Home from "../../../pages/home/Home";
 import Colors from "../../../Colors";
-import Profile from "../../../pages/profile/Profile";
 import Cart from "../../../pages/cart/Cart";
 import StackNav from "../stackNav/StackNav";
 import Tabs from "../../features/Tabs/Tabs";

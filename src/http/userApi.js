@@ -1,14 +1,14 @@
 import { $authHost, $host } from ".";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// export const registration = async (values: any) => {
-//   const { data } = await $host.post("api/user/register", {
-//     ...values,
-//     role: "ADMIN",
-//   });
-//   localStorage.setItem("token", data);
-//   return jwtDecode(data);
-// };
+export const registration = async (values) => {
+  const { data } = await $host.post("api/user/register", {
+    ...values,
+    role: "ADMIN",
+  });
+  localStorage.setItem("token", data);
+  return jwtDecode(data);
+};
 
 export const login = async (values) => {
   const { data } = await $host.post("api/user/login", values);

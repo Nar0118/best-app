@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert } from "react-native";
 
-function Contact({ isHide, navigation }) {
+function Contact() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -59,7 +59,6 @@ function Contact({ isHide, navigation }) {
             placeholder='Email'
             value={email}
             onChangeText={(text) => setEmail(text)}
-            keyboardType='email-address'
           />
           <TextInput
             placeholder='Message'

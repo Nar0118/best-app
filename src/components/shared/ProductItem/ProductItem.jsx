@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Center,
-  HStack,
-  Image,
-  Text,
-  VStack,
-} from "native-base";
+import { Box, Button, Center, HStack, Image, Text, VStack } from "native-base";
 import { Pressable } from "react-native";
 import Colors from "../../../Colors";
 
@@ -50,7 +42,7 @@ function ProductItem({ product }) {
                 color: Colors.white,
               }}
             >
-              5
+              {product?.quantity}
             </Button>
           </Center>
         </HStack>

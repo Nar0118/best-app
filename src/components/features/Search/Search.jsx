@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, HStack, Input, Pressable } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -9,29 +9,29 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Search = () => {
   const navigation = useNavigation();
+  const [cart, setCart] = useState(0);
 
   useEffect(() => {
-    console.log(2222222222222222222222222);
     const checkAuth = async () => {
-    console.log(555555555555555555);
-    try {
-    console.log(4533543);
-    const user = await check();
-    console.log(111111111111111);
-    console.log('-----hgjghjhjg', user?.id);
+      console.log(555555555555555555);
+      try {
+        console.log(1212121212121);
+        const user = await check();
+        console.log(111111111111111);
+        console.log("-----hgjghjhjg", user?.id);
         if (!user?.id) {
           navigation.navigate("Login");
-          // await AsyncStorage.removeItem("token");
         }
 
-        const cart = await fetchOneBasket(user?.id);
-        console.log('==============================', cart);
+        const cart = await fetchOneBasket(1);
+        console.log("===========esa===================", cart);
       } catch (e) {
+        console.log(999999999999999, e);
         navigation.navigate("Login");
-        // await AsyncStorage.removeItem("token");
+        setCart(0);
       }
     };
-    checkAuth();
+    // checkAuth();
   }, []);
 
   return (
@@ -70,7 +70,7 @@ const Search = () => {
             fontSize: "11px",
           }}
         >
-          5
+          {cart}
         </Box>
       </Pressable>
     </HStack>

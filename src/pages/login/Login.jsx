@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -6,6 +6,7 @@ import {
   Image,
   Input,
   Pressable,
+  ScrollView,
   Text,
   VStack,
 } from "native-base";
@@ -18,19 +19,37 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const user = await check();
+        if (user?.id) {
+          navigation.navigate("Bottom");
+        }
+      } catch (e) {
+        navigation.navigate("Login");
+        await AsyncStorage.removeItem("token");
+      }
+    };
+    // checkAuth();
+  }, [navigation]);
+
   const handleLogin = async () => {
-    navigation.navigate("Bottom"); // need to remove
+    // navigation.navigate("Bottom"); // need to remove
     try {
       if (!email || !password) {
         alert("Please fill all fields!");
         return;
       }
-
+console.log('email || !password', email ,password);
       await login({ email, password });
-      const token = await AsyncStorage.getItem("token");
+console.log(11111111111111111111111);
+const token = await AsyncStorage.getItem("token");
+
+      console.log('token', token);
       if (token) navigation.navigate("Bottom");
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -44,16 +63,16 @@ const Login = ({ navigation }) => {
         w='full'
         source={require("../../../assets/bg.png")}
       />
-      <Box
+      <ScrollView
         w='full'
         h='full'
         position='absolute'
         top='0'
         px='6'
-        justifyContent='center'
+        // justifyContent='center'
         // bg={Colors.black}
       >
-        <Heading>Login</Heading>
+        <Heading color={Colors.white}>Login</Heading>
         <VStack space={6} pt='6'>
           <Input
             value={email}
@@ -97,10 +116,10 @@ const Login = ({ navigation }) => {
         >
           Login
         </Button>
-        <Pressable mt={4}>
-          <Text color='gray'>Sign up</Text>
+        <Pressable mt={4} onPress={() => navigation.navigate("Signup")}>
+          <Text color={Colors.white}>Sign up</Text>
         </Pressable>
-      </Box>
+      </ScrollView>
     </Box>
   );
 };

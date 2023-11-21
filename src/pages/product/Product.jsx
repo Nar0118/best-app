@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { TextInput } from "react-native";
 import {
   Box,
   HStack,
@@ -18,50 +17,48 @@ import CustomButton from "../../components/shared/button/Button";
 import Review from "../../components/features/Review/Review";
 import Message from "../../components/shared/message/Message";
 import Colors from "../../Colors";
+import { checkAuth } from "../../services/auth/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Product = (props) => {
   const [product, setProduct] = useState(null);
   const [rating, setRating] = useState(0);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const [comment, setComment] = useState("");
-  console.log("product", product);
+  const [isLogged, setIsLogged] = useState(false);
+  console.log("tttttttttttttttttttttttt", rating);
 
   const getProduct = useCallback(async () => {
     try {
-      const data = await fetchOneDevice(1);
-      setProduct(props.route.params);
-
+      const data = await fetchOneDevice(props?.route?.params?.id);
+      setProduct(data);
+      const token = await AsyncStorage.getItem("token");
+console.log('token', token);
       if (data?.ratings?.length > 0) {
         const sum = (data.ratings || []).reduce(
           (acc, rating) => acc + (rating?.rate || 0),
           0
         );
-
-        setRating(Math.round(sum / data.ratings.length));
+console.log(666666666666, sum);
+        setRating(Math.floor(sum / data.ratings.length));
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }, []);
 
+  const check = async () => {
+    // const user = await checkAuth();
+    // setIsLogged(!!user?.id);
+  };
+
   useEffect(() => {
-    // getProduct();
-    setProduct(props.route.params);
-    if (props.route.params?.ratings?.length > 0) {
-      const sum = (props.route.params.ratings || []).reduce(
-        (acc, rating) => acc + (rating?.rate || 0),
-        0
-      );
-
-      setRating(Math.round(sum / props.route.params.ratings.length));
-    }
+    getProduct();
+    // check();
   }, [props]);
-
-  const ratingCompleted = (rating) => {};
 
   return (
     <Box safeArea flex={1} bg={Colors.white} p={5}>
-      <Text>{JSON.stringify(props.route.params.ratings)}</Text>
       <ScrollView px={5} showsVerticalScrollIndicator={false}>
         <Image
           source={{
@@ -84,7 +81,7 @@ const Product = (props) => {
             iconSize={25}
             step={1}
             maxValue={15}
-            minValue={0}
+            minValue={1}
             borderColor={Colors.main}
             rounded
             textColor={Colors.black}
@@ -97,7 +94,7 @@ const Product = (props) => {
           />
           <Spacer />
           <Heading bold color={Colors.black} fontSize={18}>
-            {product?.price} AMD
+            {product?.price * value} AMD
           </Heading>
         </HStack>
         <Text lineHeight={24} fontSize={12}>
@@ -122,41 +119,43 @@ const Product = (props) => {
             fontSize={5}
           />
         </Box>
-        <TextArea
-          h={24}
-          w='full'
-          placeholder='Write a comment...'
-          borderWidth={0}
-          py={4}
-          bg={Colors.lightBlue}
-          mb={7}
-          _focus={{
-            bg: Colors.lightBlue,
-          }}
-        />
-        <CustomButton
-          bg={Colors.white}
-          color={Colors.main}
-          style={{ borderColor: Colors.main, borderWidth: 1 }}
-        >
-          Add comment
-        </CustomButton>
-        {/* If user isn't login */}
-        <Message
-          color={Colors.white}
-          bg={Colors.black}
-          bold
-          children='Please login to write a review'
-          style={{
-            marginBottom: 20,
-            marginTop: 20,
-          }}
-        />
-        {/*  */}
+        {isLogged ? (
+          <>
+            <TextArea
+              h={24}
+              w='full'
+              placeholder='Write a comment...'
+              borderWidth={0}
+              py={4}
+              bg={Colors.lightBlue}
+              mb={7}
+              _focus={{
+                bg: Colors.lightBlue,
+              }}
+            />
+            <CustomButton
+              bg={Colors.white}
+              color={Colors.main}
+              style={{ borderColor: Colors.main, borderWidth: 1 }}
+            >
+              Add comment
+            </CustomButton>
+          </>
+        ) : (
+          <Message
+            color={Colors.white}
+            bg={Colors.black}
+            bold
+            children='Please login to write a review'
+            style={{
+              marginBottom: 20,
+              marginTop: 20,
+            }}
+          />
+        )}
         <Heading bold fontSize={15} mb={2} mt={3}>
           REVIEW
         </Heading>
-        {/* If there is no review */}
         {product?.ratings?.length ? (
           product?.ratings?.map((e) => <Review rating={e} />)
         ) : (
