@@ -41,12 +41,9 @@ const Login = ({ navigation }) => {
         alert("Please fill all fields!");
         return;
       }
-console.log('email || !password', email ,password);
       await login({ email, password });
-console.log(11111111111111111111111);
-const token = await AsyncStorage.getItem("token");
+      const token = await AsyncStorage.getItem("token");
 
-      console.log('token', token);
       if (token) navigation.navigate("Bottom");
     } catch (err) {
       console.error(err);

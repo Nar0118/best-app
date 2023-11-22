@@ -10,15 +10,28 @@ import {
   TextArea,
 } from "native-base";
 import { AirbnbRating } from "react-native-ratings";
-import { fetchOneDevice } from "../../http/deviceApi";
+import { createBasket, fetchOneDevice } from "../../http/deviceApi";
 import StarRating from "react-native-star-rating";
 import NumericInput from "react-native-numeric-input";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "../../components/shared/button/Button";
 import Review from "../../components/features/Review/Review";
 import Message from "../../components/shared/message/Message";
 import Colors from "../../Colors";
-import { checkAuth } from "../../services/auth/Auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+const addToCart = async (id, quantity) => {
+  try {
+    await createBasket({
+      deviceId: id,
+      quantity: quantity,
+      userId: 7,
+    });
+    alert("Product has been successfully added in cart.");
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 const Product = (props) => {
   const [product, setProduct] = useState(null);
@@ -26,21 +39,18 @@ const Product = (props) => {
   const [value, setValue] = useState(1);
   const [comment, setComment] = useState("");
   const [isLogged, setIsLogged] = useState(false);
-  console.log("tttttttttttttttttttttttt", rating);
 
   const getProduct = useCallback(async () => {
     try {
       const data = await fetchOneDevice(props?.route?.params?.id);
       setProduct(data);
       const token = await AsyncStorage.getItem("token");
-console.log('token', token);
       if (data?.ratings?.length > 0) {
         const sum = (data.ratings || []).reduce(
           (acc, rating) => acc + (rating?.rate || 0),
           0
         );
-console.log(666666666666, sum);
-        setRating(Math.floor(sum / data.ratings.length));
+        setRating(Math.round(sum / data.ratings.length));
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -72,7 +82,7 @@ console.log(666666666666, sum);
         <Heading bold fontSize={15} mb={2} lineHeight={22}>
           {product?.name}
         </Heading>
-        <StarRating disabled maxStars={5} rating={rating} />
+        {!!rating && <StarRating disabled maxStars={5} rating={rating} />}
         <HStack space={2} alignItems='center' my={5}>
           <NumericInput
             value={value}
@@ -94,7 +104,7 @@ console.log(666666666666, sum);
           />
           <Spacer />
           <Heading bold color={Colors.black} fontSize={18}>
-            {product?.price * value} AMD
+            {(product?.price * value) || 0} AMD
           </Heading>
         </HStack>
         <Text lineHeight={24} fontSize={12}>
@@ -167,7 +177,11 @@ console.log(666666666666, sum);
           />
         )}
       </ScrollView>
-      <CustomButton bg={Colors.main} color={Colors.white}>
+      <CustomButton
+        bg={Colors.main}
+        color={Colors.white}
+        onPress={() => addToCart(product?.id, value)}
+      >
         Add to cart
       </CustomButton>
     </Box>

@@ -30,14 +30,13 @@ import { $authHost, $host } from ".";
 //   return data;
 // };
 
-// export const fetchDevices = async (queries, signal = null) => {
-//   const { data } = await $host.get(
-//     `/api/device?page=${queries?.current}&limit=${queries?.pageSize}&search=${queries?.search}&typeId=${queries?.typeId}&brandId=${queries?.brandId}`,
-//     { signal }
-//   );
+export const fetchDevices = async (queries, signal = null) => {
+  const { data } = await $host.get(`/api/device?page=${queries?.current}`, {
+    signal,
+  });
 
-//   return data;
-// };
+  return data;
+};
 
 export const fetchOneDevice = async (id) => {
   const { data } = await $host.get(`api/device/${id}`);
@@ -54,10 +53,10 @@ export const fetchOneBasket = async (id) => {
   return data;
 };
 
-// export const createBasket = async (basket) => {
-//   const { data } = await $authHost.post("api/basket", basket);
-//   return data;
-// };
+export const createBasket = async (basket) => {
+  const { data } = await $authHost.post("api/basket", basket);
+  return data;
+};
 
 export const removeFromBasket = async (id) => {
   const { data } = await $authHost.delete(`api/basket/${id}`);

@@ -1,34 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, FlatList } from "react-native";
 import AddCartBtn from "../../components/shared/button/AddCartBtn";
 import { Flex, Pressable, ScrollView } from "native-base";
 import { useNavigation } from "@react-navigation/native";
+import { fetchDevices } from "../../http/deviceApi";
 
 const Home = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://best-systems.onrender.com/api/device?page=1&limit=10&search=&typeId=undefined&brandId=undefined"
-        );
+        const response = await fetchDevices({ current: page });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        setData(result);
+        setData(response);
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
     };
 
     fetchData();
-  }, []);
+  }, [page]);
+
+  const renderItem = ({ item }) => (
+    <View style={styles.container} key={item?.id}>
+      <Text style={styles.name}>{item.name}</Text>
+      <Pressable onPress={() => navigation.navigate("Product", item)}>
+        <Image
+          style={styles.tinyLogo}
+          source={{
+            uri: item.img,
+          }}
+        />
+      </Pressable>
+      <Text style={styles.price}>Price: {item.price} AMD</Text>
+      <AddCartBtn id={item?.id} />
+    </View>
+  );
+
+  const handleEndReached = () => {
+    setPage(page + 1);
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer} flex={1}>
@@ -38,21 +52,17 @@ const Home = () => {
         justifyContent='space-between'
         px={6}
       >
-        {data?.map((e) => (
-          <View style={styles.container} key={e?.id}>
-            <Text style={styles.name}>{e.name}</Text>
-            <Pressable onPress={() => navigation.navigate("Product", e)}>
-              <Image
-                style={styles.tinyLogo}
-                source={{
-                  uri: e.img,
-                }}
-              />
-            </Pressable>
-            <Text style={styles.price}>Price: {e.price} AMD</Text>
-            <AddCartBtn />
-          </View>
-        ))}
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.1}
+          style={{
+            display: "flex",
+            direction: "row",
+          }}
+        />
       </Flex>
     </ScrollView>
   );

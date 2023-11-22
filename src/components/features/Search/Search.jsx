@@ -3,7 +3,6 @@ import { Box, HStack, Input, Pressable } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Colors from "../../../Colors";
-import { check } from "../../../http/userApi";
 import { fetchOneBasket } from "../../../http/deviceApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -12,26 +11,15 @@ const Search = () => {
   const [cart, setCart] = useState(0);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      console.log(555555555555555555);
+    const getCart = async () => {
       try {
-        console.log(1212121212121);
-        const user = await check();
-        console.log(111111111111111);
-        console.log("-----hgjghjhjg", user?.id);
-        if (!user?.id) {
-          navigation.navigate("Login");
-        }
-
-        const cart = await fetchOneBasket(1);
-        console.log("===========esa===================", cart);
+        const cart = await fetchOneBasket(7); // the id should be removed
+        setCart(cart?.length ?? 0);
       } catch (e) {
-        console.log(999999999999999, e);
-        navigation.navigate("Login");
         setCart(0);
       }
     };
-    // checkAuth();
+    getCart();
   }, []);
 
   return (

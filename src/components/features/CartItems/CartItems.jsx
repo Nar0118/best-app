@@ -37,6 +37,7 @@ const renderItems = (data) => {
         img: data.item.device.img,
         price: data.item.device.price,
         quantity: data.item.quantity,
+        id: data.item.deviceId
       }}
     />
   );

@@ -1,8 +1,11 @@
 import { Box, Button, Center, HStack, Image, Text, VStack } from "native-base";
-import { Pressable } from "react-native";
+import { Pressable, TouchableWithoutFeedback } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import Colors from "../../../Colors";
 
 function ProductItem({ product }) {
+  const navigation = useNavigation();
+
   return (
     <Pressable>
       <Box ml={6} mb={3}>
@@ -13,17 +16,22 @@ function ProductItem({ product }) {
           rounded={10}
           overflow='hidden'
         >
-          <Center w='25%' bg={Colors.main}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigation.navigate("Product", product);
+            }}
+            bg={Colors.main}
+          >
             <Image
               source={{
                 uri: product?.img,
               }}
               alt={product?.img}
-              w='full'
+              w='25%'
               h={24}
               resizeMode='contain'
             />
-          </Center>
+          </TouchableWithoutFeedback>
           <VStack w='60%' px={2}>
             <Text isTruncated color={Colors.black} bold fontSize={10}>
               {product?.name}

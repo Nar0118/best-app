@@ -1,24 +1,41 @@
 import React from "react";
-import { Box, Heading, Text, View } from "native-base";
+import { Box, Heading, Image, Text, View } from "native-base";
 import StarRating from "react-native-star-rating";
+import { AntDesign } from "@expo/vector-icons";
 import Colors from "../../../Colors";
 
+const options = {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+};
+
 const Review = ({ rating }) => {
-  const options = {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  };
-  const formattedDate = new Date(rating?.createdAt).toLocaleString("en-US", options);
+  const formattedDate = new Date(rating?.createdAt).toLocaleString(
+    "en-US",
+    options
+  );
 
   return (
-    <Box my={9}>
+    <Box>
       <Box p={3} bg={Colors.lightBlue} mt={5} rounded={5}>
-        <Heading
-          fontSize={15}
-        >{`${rating?.user?.first_name} ${rating?.user?.last_name}`}</Heading>
+        {rating?.user?.avatar ? (
+          <Image
+            source={{
+              uri: rating?.user?.avatar,
+            }}
+            alt={rating?.user?.avatar}
+            w={24}
+            h={24}
+          />
+        ) : (
+          <AntDesign name='user' size={24} color={Colors.black} />
+        )}
+        <Heading fontSize={15}>
+          {`${rating?.user?.first_name} ${rating?.user?.last_name}`}
+        </Heading>
         <View width={50} mt={2}>
           <StarRating
             disabled
