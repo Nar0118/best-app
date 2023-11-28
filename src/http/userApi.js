@@ -17,12 +17,12 @@ export const login = async (values) => {
   return true;
 };
 
-// export const update = async (values: any) => {
-//   const { data } = await $authHost.put(`api/user`, values);
+export const update = async (values) => {
+  const { data } = await $authHost.put(`api/user`, values);
 
-//   localStorage.setItem("token", data.token);
-//   return jwtDecode(data.token);
-// };
+  localStorage.setItem("token", data.token);
+  return jwtDecode(data.token);
+};
 
 export const check = async () => {
   const { data } = await $authHost.get("api/user/auth");

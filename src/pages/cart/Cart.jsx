@@ -15,6 +15,7 @@ function Cart() {
   useEffect(() => {
     const getCart = async () => {
       const cart = await fetchOneBasket(7); // the id should be removed
+
       setCart(cart);
       if (cart?.length) {
         let total = 0;
@@ -37,7 +38,14 @@ function Cart() {
       </Center>
       {cart?.length ? (
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CartItems cart={cart} />
+          <CartItems
+            cart={cart}
+            remove={(id) => {
+              const updatedCart = cart.filter((item) => item.id !== id);
+              alert("Product has been successfully removed from cart!");
+              setCart(updatedCart);
+            }}
+          />
           {/* total */}
           <Center mt={5}>
             <HStack
@@ -68,7 +76,6 @@ function Cart() {
               </Button>
             </HStack>
           </Center>
-
           {/* checkout */}
           <Center px={5}>
             <Button
@@ -86,7 +93,7 @@ function Cart() {
           </Center>
         </ScrollView>
       ) : (
-        <CartEmpty />
+        <CartEmpty title='Cart is empty' />
       )}
     </Box>
   );

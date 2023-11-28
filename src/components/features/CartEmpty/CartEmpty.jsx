@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../shared/button/Button";
 import Colors from "../../../Colors";
 
-function CartEmpty() {
+function CartEmpty({ title }) {
   const navigation = useNavigation();
 
   return (
@@ -14,7 +14,7 @@ function CartEmpty() {
           <FontAwesome name='shopping-basket' size={64} color={Colors.main} />
         </Center>
         <Text color={Colors.main} bold mt={5}>
-          Cart is empty
+          {title}
         </Text>
       </Center>
       <CustomButton

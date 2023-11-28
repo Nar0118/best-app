@@ -1,21 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Center, Heading, Image, ScrollView, Text } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "../../Colors";
-import ProfileDetails from "../../components/features/profile/Profile";
+import ProfileDetails from "../../components/features/ProfileDetails/ProfileDetails";
+import { check } from "../../http/userApi";
 
 const Profile = () => {
-  // here should be user's image url(base:64)
-  const image = "";
+  const [user, setUser] = useState({});
+
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  };
+
+  const getUser = async () => {
+    try {
+      const data = await check();
+      const { avatar, ...rrr } = data;
+
+      setUser(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <ScrollView>
       <Center bg={Colors.main} pt={10} pb={6}>
-        <Box p={7} bg={Colors.green} rounded={100}>
-          {image ? (
+        <Box p={user?.avatar ? 0 : 7} bg={Colors.green} rounded={100}>
+          {user?.avatar ? (
             <Image
+              rounded={100}
               source={{
-                uri: image,
+                uri: user?.avatar,
               }}
               alt='profile'
               w={24}
@@ -26,14 +48,19 @@ const Profile = () => {
             <AntDesign name='user' size={30} color={Colors.white} />
           )}
         </Box>
-        <Heading bold fontSize={15} isTruncated my={2} color={Colors.white}>
-          John Smith
-        </Heading>
-        <Text italic fontSize={15} color={Colors.white}>
-          Joined Dec 12 2022
-        </Text>
+        {user && (
+          <>
+            <Heading bold fontSize={15} isTruncated my={2} color={Colors.white}>
+              {`${user?.first_name} ${user?.last_name}`}
+            </Heading>
+            <Text italic fontSize={15} color={Colors.white}>
+              Joined{" "}
+              {new Date(user?.createdAt).toLocaleDateString("en-US", options)}
+            </Text>
+          </>
+        )}
       </Center>
-      <ProfileDetails />
+      <ProfileDetails user={user} />
     </ScrollView>
   );
 };

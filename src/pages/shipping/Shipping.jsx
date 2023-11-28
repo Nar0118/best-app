@@ -1,8 +1,6 @@
 import React from "react";
-import { Box, Center, Heading, Image, ScrollView, Text } from "native-base";
-import { AntDesign } from "@expo/vector-icons";
+import { Box, Center, Text } from "native-base";
 import Colors from "../../Colors";
-import ProfileDetails from "../../components/features/profile/Profile";
 
 const Shipping = () => {
   return (

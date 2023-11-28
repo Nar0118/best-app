@@ -4,6 +4,7 @@ import AddCartBtn from "../../components/shared/button/AddCartBtn";
 import { Flex, Pressable, ScrollView } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { fetchDevices } from "../../http/deviceApi";
+import CartEmpty from "../../components/features/CartEmpty/CartEmpty";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -64,6 +65,7 @@ const Home = () => {
           }}
         />
       </Flex>
+      <CartEmpty title='There is no product' />
     </ScrollView>
   );
 };
@@ -90,17 +92,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 10,
   },
-  // scrollViewContainer: {
-  //   flex: 1,
-  //   justifyContent: "start",
-  //   alignItems: "center",
-  //   backgroundColor: "#fff",
-  // },
-  // childItem: {
-  //   margin: 10,
-  //   padding: 20,
-  //   backgroundColor: "lightgray",
-  // },
 });
 
 export default Home;

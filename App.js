@@ -12,13 +12,15 @@ import BottomNavigation from "./src/components/navigations/bottomNavigation/Bott
 const Stack = createStackNavigator();
 
 export default function App() {
+  const checkAuth = async () => AsyncStorage.getItem("token");
+
   return (
     <NativeBaseProvider>
       <NavigationContainer>
         {/* <StatusBar hidden={true} /> */}
         <Search />
         <Stack.Navigator
-          initialRouteName='Bottom'
+          initialRouteName={checkAuth() ? "Bottom" : "Login"}
           screenOptions={{
             headerShown: false,
           }}
