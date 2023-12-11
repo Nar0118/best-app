@@ -16,10 +16,9 @@ const Profile = () => {
 
   const getUser = async () => {
     try {
-      const data = await check();
-      const { avatar, ...rrr } = data;
+      const user = await check();
 
-      setUser(data);
+      setUser(user);
     } catch (e) {
       console.error(e);
     }

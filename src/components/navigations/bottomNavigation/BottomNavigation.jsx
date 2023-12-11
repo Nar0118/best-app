@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Center, Pressable } from "native-base";
 import { StyleSheet } from "react-native";
@@ -11,6 +12,8 @@ import Colors from "../../../Colors";
 import Cart from "../../../pages/cart/Cart";
 import StackNav from "../stackNav/StackNav";
 import Tabs from "../../features/Tabs/Tabs";
+import { check } from "../../../http/userApi";
+import Login from "../../../pages/login/Login";
 
 const Tab = createBottomTabNavigator();
 const CustomTab = ({ children, onPress }) => (
@@ -28,6 +31,22 @@ const CustomTab = ({ children, onPress }) => (
 );
 
 export default function BottomNavigation() {
+  const [isLogin, setIsLogin] = useState(null);
+
+  const getUser = async () => {
+    try {
+      const user = await check();
+      setIsLogin(user);
+    } catch (e) {
+      setIsLogin(null);
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  });
+
   return (
     <Tab.Navigator
       backBehavior='Main'
@@ -78,21 +97,39 @@ export default function BottomNavigation() {
           ),
         }}
       />
-      <Tab.Screen
-        name='Profile'
-        component={Tabs}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Center>
-              {focused ? (
-                <Entypo name='user' size={24} color={Colors.main} />
-              ) : (
-                <AntDesign name='user' size={24} color={Colors.black} />
-              )}
-            </Center>
-          ),
-        }}
-      />
+      {isLogin ? (
+        <Tab.Screen
+          name='Profile'
+          component={Tabs}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Center>
+                {focused ? (
+                  <Entypo name='user' size={24} color={Colors.main} />
+                ) : (
+                  <AntDesign name='user' size={24} color={Colors.black} />
+                )}
+              </Center>
+            ),
+          }}
+        />
+      ) : (
+        <Tab.Screen
+          name='Login'
+          component={Login}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Center>
+                <AntDesign
+                  name='login'
+                  size={24}
+                  color={focused ? Colors.main : Colors.black}
+                />
+              </Center>
+            ),
+          }}
+        />
+      )}
     </Tab.Navigator>
   );
 }

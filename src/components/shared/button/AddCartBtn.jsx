@@ -2,13 +2,15 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import Colors from "../../../Colors";
 import { createBasket } from "../../../http/deviceApi";
+import { check } from "../../../http/userApi";
 
 const addToCart = async (id) => {
   try {
+    const user = await check();
     await createBasket({
       deviceId: id,
       quantity: 1,
-      userId: 7,
+      userId: user?.id,
     });
     alert("Product has been successfully added in cart.");
   } catch (e) {
@@ -27,7 +29,7 @@ const AddCartBtn = ({ id }) => {
 const styles = StyleSheet.create({
   button: {
     borderRadius: 6,
-    backgroundColor: "transparent", // unset is not directly supported, using transparent instead
+    backgroundColor: "transparent",
     color: Colors.black,
     borderWidth: 1,
     borderColor: Colors.black,

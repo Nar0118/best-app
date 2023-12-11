@@ -1,6 +1,6 @@
 import { Box, Center, Text } from "native-base";
-import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { FontAwesome } from "@expo/vector-icons";
 import CustomButton from "../../shared/button/Button";
 import Colors from "../../../Colors";
 

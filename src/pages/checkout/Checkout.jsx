@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text } from "react-native";
-import Contact from "../contact/Contact";
+import CheckoutForm from "../../components/features/CheckoutForm/CheckoutForm";
+import { fetchOneBasket } from "../../http/deviceApi";
 
-const Checkout = ({ navigation }) => {
+const Checkout = () => {
+  const getCheckoutData = async () => {
+    try {
+      const data = await fetchOneBasket();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getCheckoutData();
+  }, []);
+
   return (
     <View
       style={{
@@ -22,7 +35,7 @@ const Checkout = ({ navigation }) => {
       >
         checkout
       </Text>
-      <Contact isHide={true} />
+      <CheckoutForm />
     </View>
   );
 };

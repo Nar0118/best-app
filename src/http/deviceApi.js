@@ -31,7 +31,7 @@ import { $authHost, $host } from ".";
 // };
 
 export const fetchDevices = async (queries, signal = null) => {
-  const { data } = await $host.get(`/api/device?page=${queries?.current}`, {
+  const { data } = await $host.get(`/api/device?page=${queries?.page}`, {
     signal,
   });
 
@@ -48,8 +48,8 @@ export const fetchOneDevice = async (id) => {
 //   return data;
 // };
 
-export const fetchOneBasket = async (id) => {
-  const { data } = await $authHost.get(`api/basket/${id}`);
+export const fetchOneBasket = async () => {
+  const { data } = await $authHost.get(`api/basket`);
   return data;
 };
 

@@ -14,7 +14,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchDevices({ current: page });
+        const response = await fetchDevices({ page });
 
         setData(response);
       } catch (error) {
@@ -34,7 +34,8 @@ const Home = () => {
           source={{
             uri: item.img,
           }}
-        />
+          alt='tinyLogo'
+          />
       </Pressable>
       <Text style={styles.price}>Price: {item.price} AMD</Text>
       <AddCartBtn id={item?.id} />
@@ -47,25 +48,28 @@ const Home = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer} flex={1}>
-      <Flex
-        flexWrap='wrap'
-        direction='row'
-        justifyContent='space-between'
-        px={6}
-      >
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          onEndReached={handleEndReached}
-          onEndReachedThreshold={0.1}
-          style={{
-            display: "flex",
-            direction: "row",
-          }}
-        />
-      </Flex>
-      <CartEmpty title='There is no product' />
+      {data?.length ? (
+        <Flex
+          flexWrap='wrap'
+          direction='row'
+          justifyContent='space-between'
+          px={6}
+        >
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.1}
+            style={{
+              display: "flex",
+              direction: "row",
+            }}
+          />
+        </Flex>
+      ) : (
+        <CartEmpty title='There is no product' />
+      )}
     </ScrollView>
   );
 };

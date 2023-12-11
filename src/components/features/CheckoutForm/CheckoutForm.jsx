@@ -6,17 +6,28 @@ import {
   Input,
   VStack,
   Image,
-  Text,
-  View,
 } from "native-base";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { AntDesign } from "@expo/vector-icons";
 import Colors from "../../../Colors";
 import CustomButton from "../../shared/button/Button";
-import { update } from "../../../http/userApi";
+import { check } from "../../../http/userApi";
 
-const ProfileDetails = ({ user }) => {
+const CheckoutForm = () => {
+  const [user, setUser] = useState({});
+
+  const getUser = async () => {
+    try {
+      const user = await check();
+
+      setUser(user);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
   const navigation = useNavigation();
   const [formValues, setFormValues] = useState({});
   const inputs = [
@@ -89,9 +100,9 @@ const ProfileDetails = ({ user }) => {
 
   const onSubmit = async (values) => {
     try {
-      await update({ ...formValues });
+      // await checkout({ ...formValues });
 
-      alert("Account details has been successfully updated!");
+      alert("Order has been successfully done!");
     } catch (err) {
       console.error(err);
     }
@@ -145,29 +156,13 @@ const ProfileDetails = ({ user }) => {
         <CustomButton
           bg={Colors.main}
           color={Colors.white}
-          onPress={() => {
-            onSubmit();
-          }}
+          onPress={() => onSubmit()}
         >
-          Update profile
-        </CustomButton>
-        <CustomButton
-          mt={5}
-          bg={Colors.red}
-          color={Colors.white}
-          onPress={async () => {
-            await AsyncStorage.removeItem("token");
-            navigation.navigate("Login");
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <AntDesign name='login' size={24} color='#fff' />
-            <Text style={{ color: Colors.white, marginLeft: 8 }}>Log out</Text>
-          </View>
+          Order
         </CustomButton>
       </ScrollView>
     </Box>
   );
 };
 
-export default ProfileDetails;
+export default CheckoutForm;

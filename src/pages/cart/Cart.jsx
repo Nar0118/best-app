@@ -6,6 +6,7 @@ import Colors from "../../Colors";
 import CartItems from "../../components/features/CartItems/CartItems";
 import { useNavigation } from "@react-navigation/native";
 import { fetchOneBasket } from "../../http/deviceApi";
+import { check } from "../../http/userApi";
 
 function Cart() {
   const navigation = useNavigation();
@@ -14,9 +15,10 @@ function Cart() {
 
   useEffect(() => {
     const getCart = async () => {
-      const cart = await fetchOneBasket(7); // the id should be removed
-
+      const user = await check();
+      const cart = await fetchOneBasket();
       setCart(cart);
+
       if (cart?.length) {
         let total = 0;
         cart.forEach((datum) => {
@@ -27,7 +29,7 @@ function Cart() {
     };
 
     getCart();
-  }, []);
+  });
 
   return (
     <Box flex={1} safeAreaTop bg={Colors.lightBlue}>
@@ -76,7 +78,6 @@ function Cart() {
               </Button>
             </HStack>
           </Center>
-          {/* checkout */}
           <Center px={5}>
             <Button
               bg={Colors.black}

@@ -20,7 +20,7 @@ export default function App() {
         {/* <StatusBar hidden={true} /> */}
         <Search />
         <Stack.Navigator
-          initialRouteName={checkAuth() ? "Bottom" : "Login"}
+          initialRouteName={"Bottom"}
           screenOptions={{
             headerShown: false,
           }}

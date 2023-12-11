@@ -4,23 +4,23 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Colors from "../../../Colors";
 import { fetchOneBasket } from "../../../http/deviceApi";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Search = () => {
   const navigation = useNavigation();
   const [cart, setCart] = useState(0);
 
+  const getCart = async () => {
+    try {
+      const cart = await fetchOneBasket();
+      setCart(cart?.length ?? 0);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
-    const getCart = async () => {
-      try {
-        const cart = await fetchOneBasket(7); // the id should be removed
-        setCart(cart?.length ?? 0);
-      } catch (e) {
-        setCart(0);
-      }
-    };
     getCart();
-  }, []);
+  });
 
   return (
     <HStack
